@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        id="biz.incoding.silentshot"
+        version="0.0.1">
+
+    <name>Silent Shot</name>
+    <description>Silent shot with camera without camera interface</description>
+    <author>Vote 539 and others</author>
+
+    <info>
+        This plugin was written with the tutorial found at:
+        http://codrspace.com/vote539/writing-a-custom-camera-plugin-for-phonegap/
+    </info>
+
+    <js-module src="www/js/silent_shot.js" name="SilentShot">
+        <clobbers target="navigator.SilentShot" />
+    </js-module>
+
+    <engines>
+        <engine name="cordova" version=">=3.1.0" />
+    </engines>
+
+    <platform name="ios">
+
+        <!-- config file -->
+        <config-file target="config.xml" parent="/*">
+            <feature name="SilentShot">
+                <param name="ios-package" value="SilentShot" />
+            </feature>
+        </config-file>
+
+        <!-- core CustomCamera header and source files -->
+        <header-file src="platforms/ios/SilentShot/Classes/SilentShot.h" />
+        <source-file src="platforms/ios/SilentShot/Classes/SilentShot.m" />
+
+    </platform>
+
+</plugin>
