@@ -9,7 +9,7 @@
 #import "SilentShot.h"
 #import <Cordova/NSData+Base64.h>
 
-#define CDV_PHOTO_PREFIX @"cdv_photo_"
+#define CDV_PHOTO_PREFIX @"silentshot_photo_"
 
 enum CDVDestinationType {
     DestinationTypeFileUri = 0,
@@ -170,103 +170,112 @@ enum CDVDestinationType {
 }
 
 
+-(void)processingCamera
+{
+    
+
+    AVCaptureConnection *videoConnection = nil;
+    for (AVCaptureConnection *connection in [stillImageOutput connections]) {
+        for (AVCaptureInputPort *port in [connection inputPorts]) {
+            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
+                videoConnection = connection;
+                break;
+            }
+        }
+        if (videoConnection) {
+            break;
+        }
+    }
+    
+    NSLog(@"about to request a capture from: %@", stillImageOutput);
+    
+    
+    
+    [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection
+                                                  completionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
+                                                      
+                                                      CDVPluginResult* result = nil;
+                                                      
+                                                      if(!error)
+                                                      {
+                                                          NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
+                                                          UIImage *image = [[UIImage alloc] initWithData:imageData];
+                                                          stillImage = [self imageCorrectedForCaptureOrientation:image];
+                                                          ///result!!!
+                                                          UIImage* scaledImage = nil;
+                                                          
+                                                          if ((imageTargetSize.width > 0) && (imageTargetSize.height > 0)) {
+                                                              
+                                                              scaledImage = [self imageByScalingNotCroppingForSize:stillImage toSize:imageTargetSize];
+                                                          }
+                                                          
+                                                          UIImage* returnedImage = (scaledImage == nil ? stillImage : scaledImage);
+                                                          
+                                                          
+                                                          
+                                                          // Get the image data (blocking; around 1 second)
+                                                          NSData* data = UIImageJPEGRepresentation(returnedImage, quality);
+                                                          
+                                                          
+                                                          
+                                                          
+                                                          
+                                                          if (returnType == DestinationTypeFileUri) {
+                                                              // write to temp directory and return URI
+                                                              // get the temp directory path
+                                                              NSString* docsPath = [NSTemporaryDirectory()stringByStandardizingPath];
+                                                              NSError* err = nil;
+                                                              NSFileManager* fileMgr = [[NSFileManager alloc] init]; // recommended by apple (vs [NSFileManager defaultManager]) to be threadsafe
+                                                              // generate unique file name
+                                                              NSString* filePath;
+                                                              
+                                                              int i = 1;
+                                                              do {
+                                                                  filePath = [NSString stringWithFormat:@"%@/%@%03d.%@", docsPath, CDV_PHOTO_PREFIX, i++, @"jpg"];
+                                                              } while ([fileMgr fileExistsAtPath:filePath]);
+                                                              
+                                                              
+                                                              NSLog(@"path %@ image: %lu", filePath, (unsigned long)data.length);
+                                                              
+                                                              // save file
+                                                              if (![data writeToFile:filePath options:NSAtomicWrite error:&err]) {
+                                                                  result = [CDVPluginResult resultWithStatus:CDVCommandStatus_IO_EXCEPTION messageAsString:[err localizedDescription]];
+                                                              } else {
+                                                                  result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[[NSURL fileURLWithPath:filePath] absoluteString]];
+                                                              }
+                                                          } else {
+                                                              result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[data base64EncodedString]];
+                                                          }
+                                                          
+                                                          
+                                                      }
+                                                      else
+                                                      {
+                                                          result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
+                                                          
+                                                          
+                                                      }
+                                                      
+                                                      if (result) {
+                                                          [self.commandDelegate sendPluginResult:result callbackId:_latestCommand.callbackId];
+                                                      }
+                                                      self.hasPendingOperation = NO;
+                                                      
+                                                      
+                                                  }];
+}
+
 -(void)makeShot:(CDVInvokedUrlCommand *)command
 {
     self.hasPendingOperation = YES;
+    self.latestCommand = command;
     [self parseCommandArguments:command.arguments];
     [self setDefaults];
     [self startFaceCam];
     if(isCameraReady)
     {
-        AVCaptureConnection *videoConnection = nil;
-        for (AVCaptureConnection *connection in [stillImageOutput connections]) {
-            for (AVCaptureInputPort *port in [connection inputPorts]) {
-                if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-                    videoConnection = connection;
-                    break;
-                }
-            }
-            if (videoConnection) {
-                break;
-            }
-        }
         
-        NSLog(@"about to request a capture from: %@", stillImageOutput);
-        
-        
-        
-        [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection
-                                                      completionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
-                                                          
-                                                          CDVPluginResult* result = nil;
-
-                                                          if(!error)
-                                                          {
-                                                              NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-                                                              UIImage *image = [[UIImage alloc] initWithData:imageData];
-                                                              stillImage = [self imageCorrectedForCaptureOrientation:image];
-                                                              ///result!!!
-                                                              UIImage* scaledImage = nil;
-                                                              
-                                                              if ((imageTargetSize.width > 0) && (imageTargetSize.height > 0)) {
-
-                                                                    scaledImage = [self imageByScalingNotCroppingForSize:stillImage toSize:imageTargetSize];
-                                                              }
-                                                              
-                                                              UIImage* returnedImage = (scaledImage == nil ? stillImage : scaledImage);
-
-
-                                                              
-                                                              // Get the image data (blocking; around 1 second)
-                                                              NSData* data = UIImageJPEGRepresentation(returnedImage, quality);
-                                                              
-                                                              
-                                                              
-                                                              
-
-                                                              if (returnType == DestinationTypeFileUri) {
-                                                                  // write to temp directory and return URI
-                                                                  // get the temp directory path
-                                                                  NSString* docsPath = [NSTemporaryDirectory()stringByStandardizingPath];
-                                                                  NSError* err = nil;
-                                                                  NSFileManager* fileMgr = [[NSFileManager alloc] init]; // recommended by apple (vs [NSFileManager defaultManager]) to be threadsafe
-                                                                  // generate unique file name
-                                                                  NSString* filePath;
-                                                                  
-                                                                  int i = 1;
-                                                                  do {
-                                                                      filePath = [NSString stringWithFormat:@"%@/%@%03d.%@", docsPath, CDV_PHOTO_PREFIX, i++, @"jpg"];
-                                                                  } while ([fileMgr fileExistsAtPath:filePath]);
-                                                                  
-                                                                  
-                                                                  NSLog(@"path %@ image: %lu", filePath, (unsigned long)data.length);
-
-                                                                  // save file
-                                                                  if (![data writeToFile:filePath options:NSAtomicWrite error:&err]) {
-                                                                      result = [CDVPluginResult resultWithStatus:CDVCommandStatus_IO_EXCEPTION messageAsString:[err localizedDescription]];
-                                                                  } else {
-                                                                      result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[[NSURL fileURLWithPath:filePath] absoluteString]];
-                                                                  }
-                                                              } else {
-                                                                  result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[data base64EncodedString]];
-                                                              }
-                                                              
-                                                              
-                                                          }
-                                                          else
-                                                          {
-                                                              result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
-
-                                                              
-                                                          }
-                                                          
-                                                          if (result) {
-                                                              [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-                                                          }
-                                                          self.hasPendingOperation = NO;
-
-                                                          
-                                                      }];
+        [self performSelectorInBackground:@selector(processingCamera) withObject:nil];
 
     }
     else

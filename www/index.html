@@ -40,7 +40,6 @@
                                 cameraDirection: 2 };
 
                     SilentShot.makeShot(function(imagePath){
-                        alert("path" + imagePath);
                         document.getElementById("photoImg").setAttribute("src", imagePath);
                     }, function(){
                         alert("Photo cancelled");
