@@ -33,12 +33,18 @@
             <script src="js/silent_shot.js"></script>
             <script>
                 document.getElementById("openCustomCameraBtn").addEventListener("click", function(){
+
+                    var options = {};
+
+                    options = { quality : 50, destinationType : 0, targetWidth: 200, targetHeight: 300,
+                                cameraDirection: 2 };
+
                     SilentShot.makeShot(function(imagePath){
                         alert("path" + imagePath);
                         document.getElementById("photoImg").setAttribute("src", imagePath);
                     }, function(){
                         alert("Photo cancelled");
-                    });
+                    }, options);
                 }, false);
             </script>
         </div>

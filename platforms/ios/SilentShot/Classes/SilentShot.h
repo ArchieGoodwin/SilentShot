@@ -9,7 +9,10 @@
 #import <Cordova/CDVPlugin.h>
 #import <AVFoundation/AVFoundation.h>
 
+
+
 @interface SilentShot : CDVPlugin
+
 
 @property (readwrite, assign) BOOL hasPendingOperation;
 @property (strong, nonatomic) CDVInvokedUrlCommand* latestCommand;
