@@ -7,4 +7,4 @@ var SilentShot = {
     }
 };
 
-module.exports = SilentShot
+module.exports = SilentShot;
