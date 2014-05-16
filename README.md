@@ -31,6 +31,9 @@ PhoneGap plugin to make a camera shot whtout camera inteface
 ##Parameters
 
 quality: up to 100 (jpeg quality compression)
+
 targetWidth: in pixels
+
 targetHeight: in pixels
+
 cameraDirection: BACK camera - 1, FRONT camera - 2
