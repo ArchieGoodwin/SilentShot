@@ -11,6 +11,8 @@
 
 #define CDV_PHOTO_PREFIX @"silentshot_photo_"
 
+
+
 enum CDVDestinationType {
     DestinationTypeFileUri = 0,
     DestinationTypeBase64 = 1
@@ -142,9 +144,13 @@ enum CDVDestinationType {
         }
         
         quality = arguments[@"quality"] ? [arguments[@"quality"] intValue] : 50;
-        
-        returnType = arguments[@"destinationType"] ? [arguments[@"destinationType"] intValue] : DestinationTypeFileUri;
-        
+
+        returnType = DestinationTypeBase64;
+        if(arguments[@"destinationType"])
+        {
+            NSInteger dest = [arguments[@"destinationType"] integerValue];
+            returnType = (enum CDVDestinationType) dest;
+        }
         cameraDirection = arguments[@"cameraDirection"] ? arguments[@"cameraDirection"] : [NSNumber numberWithInteger:AVCaptureDevicePositionFront];
     }
     else
@@ -159,7 +165,7 @@ enum CDVDestinationType {
         
         quality = 50;
         
-        returnType = DestinationTypeFileUri;
+        returnType = DestinationTypeBase64;
         
         cameraDirection = [NSNumber numberWithInteger:AVCaptureDevicePositionFront];
     }
