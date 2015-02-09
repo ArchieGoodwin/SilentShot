@@ -36,5 +36,14 @@
         <source-file src="platforms/ios/SilentShot/Classes/SilentShot.m" />
 
     </platform>
+ <platform name="android">
 
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="SilentShot">
+        <param name="android-package" value="biz.incoding.silentshot"/>
+      </feature>
+    </config-file>
+
+    <source-file src="platforms/android/src/biz/incoding/silentshot/silentshot.java" target-dir="platforms/android/src/biz/incoding/silentshot"/>
+  </platform>
 </plugin>
