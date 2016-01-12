@@ -95,7 +95,9 @@
     <feature name="IrisAccess">
         <param name="ios-package" value="IrisAccess" />
     </feature>
-    
+    <feature name="EyeVerifyLoader">
+        <param name="ios-package" value="EyeVerifyLoader" />
+    </feature>
     <access origin="http://127.0.0.1*"/> <!-- allow local pages -->
     <!--
         <access origin="http://phonegap.com" />                    - allow any secure requests to http://phonegap.com/

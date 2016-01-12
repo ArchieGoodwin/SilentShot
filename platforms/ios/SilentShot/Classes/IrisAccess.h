@@ -7,8 +7,10 @@
 //
 
 #import <Cordova/CDVPlugin.h>
+#import "EyeVerifyLoader.h"
 
-@interface IrisAccess : CDVPlugin
+
+@interface IrisAccess : CDVPlugin <EVAuthSessionDelegate>
 
 
 

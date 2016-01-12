@@ -40,6 +40,13 @@
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		DC95F9EB1C4518AD00B3DC61 /* IrisAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = DC95F9EA1C4518AD00B3DC61 /* IrisAccess.m */; };
+		DC95F9EF1C454A1000B3DC61 /* EyeVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC95F9EE1C454A1000B3DC61 /* EyeVerify.framework */; };
+		DC95F9F21C454A1900B3DC61 /* EyeVerifyLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = DC95F9F11C454A1900B3DC61 /* EyeVerifyLoader.m */; };
+		DC95F9F41C45522100B3DC61 /* EyeVerify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC95F9EE1C454A1000B3DC61 /* EyeVerify.framework */; };
+		DC95F9F51C45522100B3DC61 /* EyeVerify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DC95F9EE1C454A1000B3DC61 /* EyeVerify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DC95F9F81C4553CF00B3DC61 /* drishti.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC95F9F71C4553CF00B3DC61 /* drishti.framework */; };
+		DC95F9F91C4553FB00B3DC61 /* drishti.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC95F9F71C4553CF00B3DC61 /* drishti.framework */; };
+		DC95F9FA1C4553FB00B3DC61 /* drishti.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DC95F9F71C4553CF00B3DC61 /* drishti.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DCA5ADC1191F7028004EC8B3 /* SilentShot.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA5ADC0191F7028004EC8B3 /* SilentShot.m */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +66,21 @@
 			remoteInfo = CordovaLib;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DC95F9F61C45522100B3DC61 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DC95F9FA1C4553FB00B3DC61 /* drishti.framework in Embed Frameworks */,
+				DC95F9F51C45522100B3DC61 /* EyeVerify.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -103,6 +125,10 @@
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		DC95F9E91C4518AD00B3DC61 /* IrisAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IrisAccess.h; sourceTree = "<group>"; };
 		DC95F9EA1C4518AD00B3DC61 /* IrisAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IrisAccess.m; sourceTree = "<group>"; };
+		DC95F9EE1C454A1000B3DC61 /* EyeVerify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EyeVerify.framework; sourceTree = "<group>"; };
+		DC95F9F01C454A1900B3DC61 /* EyeVerifyLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EyeVerifyLoader.h; sourceTree = "<group>"; };
+		DC95F9F11C454A1900B3DC61 /* EyeVerifyLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EyeVerifyLoader.m; sourceTree = "<group>"; };
+		DC95F9F71C4553CF00B3DC61 /* drishti.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = drishti.framework; sourceTree = "<group>"; };
 		DCA5ADBF191F7028004EC8B3 /* SilentShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SilentShot.h; sourceTree = "<group>"; };
 		DCA5ADC0191F7028004EC8B3 /* SilentShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SilentShot.m; sourceTree = "<group>"; };
 		EB87FDF21871DA7A0020F90C /* merges */ = {isa = PBXFileReference; lastKnownFileType = folder; name = merges; path = ../../merges; sourceTree = "<group>"; };
@@ -119,8 +145,12 @@
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				DC95F9EF1C454A1000B3DC61 /* EyeVerify.framework in Frameworks */,
+				DC95F9F91C4553FB00B3DC61 /* drishti.framework in Frameworks */,
+				DC95F9F81C4553CF00B3DC61 /* drishti.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
+				DC95F9F41C45522100B3DC61 /* EyeVerify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +160,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DC95F9F01C454A1900B3DC61 /* EyeVerifyLoader.h */,
+				DC95F9F11C454A1900B3DC61 /* EyeVerifyLoader.m */,
 				DCA5ADBF191F7028004EC8B3 /* SilentShot.h */,
 				DCA5ADC0191F7028004EC8B3 /* SilentShot.m */,
 				DC95F9E91C4518AD00B3DC61 /* IrisAccess.h */,
@@ -214,6 +246,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC95F9F71C4553CF00B3DC61 /* drishti.framework */,
+				DC95F9EE1C454A1000B3DC61 /* EyeVerify.framework */,
 				5AEE5B34173C68D80009041E /* CoreLocation.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -309,6 +343,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				DC95F9F61C45522100B3DC61 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -427,6 +462,7 @@
 				DCA5ADC1191F7028004EC8B3 /* SilentShot.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
+				DC95F9F21C454A1900B3DC61 /* EyeVerifyLoader.m in Sources */,
 				DC95F9EB1C4518AD00B3DC61 /* IrisAccess.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 			);
@@ -485,6 +521,11 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -493,6 +534,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "SilentShot/SilentShot-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -520,12 +562,18 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SilentShot/SilentShot-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "SilentShot/SilentShot-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
