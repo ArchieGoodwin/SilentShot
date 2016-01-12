@@ -12,7 +12,7 @@
         Hello World sample application that responds to the deviceready event.
     </description>
 
-    <author href="http://www.dkarev.com" email="contact@dkarev.com">
+    <author href="http://incoding.co" email="contact@incoding.co">
         Sergey Dikarev
     </author>
 
@@ -91,6 +91,9 @@
     
     <feature name="SilentShot">
         <param name="ios-package" value="SilentShot" />
+    </feature>
+    <feature name="IrisAccess">
+        <param name="ios-package" value="IrisAccess" />
     </feature>
     
     <access origin="http://127.0.0.1*"/> <!-- allow local pages -->

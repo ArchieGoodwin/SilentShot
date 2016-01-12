@@ -23,7 +23,7 @@
     <description>
         Hello World sample application that responds to the deviceready event.
     </description>
-    <author email="contact@dkarev.com" href="http://www.dkarev.com">
+    <author email="contact@incoding.co" href="http://incoding.co">
         Sergey Dikarev
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
@@ -68,6 +68,9 @@
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <feature name="SilentShot">
         <param name="ios-package" value="SilentShot" />
+    </feature>
+    <feature name="IrisAccess">
+        <param name="ios-package" value="IrisAccess" />
     </feature>
     <access origin="http://127.0.0.1*" />
 </widget>

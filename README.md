@@ -1,11 +1,11 @@
 SilentShot
 ==========
 
-PhoneGap plugin to make a camera shot whtout camera inteface
+PhoneGap plugin to make a camera shot without camera interface
 
 ##Install
 
-    >phonegap local plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
+    >phonegap local plugin add https://github.com/ArchieGoodwin/SilentShot
     
     
 ##Usage example

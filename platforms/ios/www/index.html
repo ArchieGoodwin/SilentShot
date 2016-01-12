@@ -30,6 +30,25 @@
         <div class="app">
             <button id="openCustomCameraBtn">Open Custom Camera</button>
             <img id="photoImg" style="position: fixed; top: 0; width: 50%; left: 25%;" />
+            <script src="js/iris_access.js"></script>
+            <script>
+                document.getElementById("openCustomCameraBtn").addEventListener("click", function(){
+                                                                                
+                                                                                var options = {};
+                                                                                
+                                                                                
+                                                                                IrisAccess.getIris(function(imagePath){
+                                                                                                    document.getElementById("photoImg").setAttribute("src", imagePath);
+                                                                                                    }, function(){
+                                                                                                    alert("Iris Access cancelled");
+                                                                                                    }, options);
+                                                                                }, false);
+                </script>
+        </div>
+        
+       <!-- <div class="app">
+            <button id="openCustomCameraBtn">Open Custom Camera</button>
+            <img id="photoImg" style="position: fixed; top: 0; width: 50%; left: 25%;" />
             <script src="js/silent_shot.js"></script>
             <script>
                 document.getElementById("openCustomCameraBtn").addEventListener("click", function(){
@@ -46,7 +65,7 @@
                     }, options);
                 }, false);
             </script>
-        </div>
+        </div>-->
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
