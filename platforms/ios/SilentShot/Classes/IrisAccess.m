@@ -15,7 +15,9 @@
 {
     EyeVerifyLoader *evLoader;
     BOOL isCameraReady;
-
+    NSInteger scanType;
+    NSString *userNameFromOptions;
+    NSString *userKeyFromOptions;
 }
 
 -(void)getIris:(CDVInvokedUrlCommand *)command
@@ -63,7 +65,15 @@
 
 
 -(void)startIris {
-    [self enroll];
+    if(scanType == 0)
+    {
+        [self enroll];
+
+    }
+    else
+    {
+        [self verify];
+    }
 }
 
 
@@ -74,9 +84,18 @@
     EyeVerify *ev = [EyeVerifyLoader getEyeVerifyInstance];
     if (ev) {
         [ev setEVAuthSessionDelegate:self];
-        [ev enrollUser:ev.userName userKey:[@"1234fhshfsf678906867" dataUsingEncoding:NSUTF8StringEncoding] localCompletionBlock:^(BOOL enrolled, NSData *userKey, NSError *error) {
-            NSLog(@"Enrollment localCompletionBlock: enrolled=%d; userKey=%@ error=%@", enrolled, userKey != nil ? [[NSString alloc] initWithData:userKey encoding:NSUTF8StringEncoding] : @"nil", error);
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+        [ev enrollUser:ev.userName userKey:[userKeyFromOptions dataUsingEncoding:NSUTF8StringEncoding] localCompletionBlock:^(BOOL enrolled, NSData *userKey, NSError *error) {
+            NSLog(@"Enrollment: enrolled=%d; userKey=%@ error=%@", enrolled, userKey != nil ? [[NSString alloc] initWithData:userKey encoding:NSUTF8StringEncoding] : @"nil", error);
+            if(enrolled)
+            {
+                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[[NSString alloc] initWithData:userKey encoding:NSUTF8StringEncoding]];
+
+            }
+            else
+            {
+                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@""];
+
+            }
 
             if (result) {
                 [self.commandDelegate sendPluginResult:result callbackId:_latestCommand.callbackId];
@@ -88,17 +107,29 @@
 }
 
 - (void) verify {
-    
+
+    __block CDVPluginResult* result = nil;
+
     EyeVerify *ev = [EyeVerifyLoader getEyeVerifyInstance];
-    
     if (ev) {
         [ev setEVAuthSessionDelegate:self];
         [ev verifyUser:ev.userName localCompletionBlock:^(BOOL verified, NSData *userKey, NSError *error) {
-            NSLog(@"Enrollment localCompletionBlock: enrolled=\(enrolled); userKey=\(userKey != nil ? NSString(data: userKey!, encoding: NSUTF8StringEncoding) : nil) error=\(error)");
-
-            if (error) {
-                NSLog(@"%@", error.localizedFailureReason);
+            NSLog(@"Verifying: verified=%d; userKey=%@ error=%@", verified, userKey != nil ? [[NSString alloc] initWithData:userKey encoding:NSUTF8StringEncoding] : @"nil", error);
+            if(verified)
+            {
+                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Verified"];
             }
+            else
+            {
+                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Not Verified"];
+
+            }
+
+            
+            if (result) {
+                [self.commandDelegate sendPluginResult:result callbackId:_latestCommand.callbackId];
+            }
+            self.hasPendingOperation = NO;
             
            
         }];
@@ -110,7 +141,7 @@
     [evLoader loadEyeVerifyWithLicense:@"1DBRJYSHENYXWOK0"];
 
     EyeVerify *ev = [EyeVerifyLoader getEyeVerifyInstance];
-    ev.userName = @"sample";
+    ev.userName = userNameFromOptions;
 
     [ev setCaptureView:[[UIView alloc] initWithFrame:CGRectMake(0, 100, 320, 100)]];
 
@@ -120,18 +151,34 @@
 -(void)parseCommandArguments:(NSArray*) args
 {
     
-    //image size
     if(args.count > 0)
     {
-        
+        NSDictionary *arguments = args[0];
+
+        if(arguments[@"scanType"])
+        {
+            NSInteger dest = [arguments[@"scanType"] integerValue];
+            scanType = dest;
+        }
+        if(arguments[@"userName"])
+        {
+            userNameFromOptions = arguments[@"userName"];
+
+        }
+        if(arguments[@"userKey"])
+        {
+            userNameFromOptions = arguments[@"userKey"];
+            
+        }
+        NSLog(@"userName: %@   userKey: %@   scanType: %li", userNameFromOptions, userKeyFromOptions, scanType);
+
     }
     else
     {
-        
+        scanType = 1;
+        userNameFromOptions = @"sample";
+        userKeyFromOptions = @"1234fhshfsf678906867";
     }
-    
-    
-    
     
 }
 
@@ -143,25 +190,30 @@
     NSLog(@"%li", (long)newEyeStatus);
     //self.scanningOverlay.targetHighlighted = NO;
     switch (newEyeStatus) {
-        case EVEyeStatusNoEye:
+        case EVEyeStatusNoEye:{
             NSLog(@"%@", @"Position your eyes in the window");
-            /*result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Position your eyes in the window"];
-            
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_INVALID_ACTION messageAsString:@"Position your eyes in front of front camera (about 20cm to device)"];
+            EyeVerify *ev = [EyeVerifyLoader getEyeVerifyInstance];
+            [ev cancel];
             if (result) {
                 [self.commandDelegate sendPluginResult:result callbackId:_latestCommand.callbackId];
-            }*/
+            }
+            self.hasPendingOperation = NO;}
             break;
-        case EVEyeStatusTooFar:
+        case EVEyeStatusTooFar:{
             NSLog(@"%@", @"Move device closer");
-            /*result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Move device closer"];
             
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_INVALID_ACTION messageAsString:@"Move device closer (about 20cm to device)"];
+            EyeVerify *ev = [EyeVerifyLoader getEyeVerifyInstance];
+            [ev cancel];
             if (result) {
                 [self.commandDelegate sendPluginResult:result callbackId:_latestCommand.callbackId];
-            }*/
+            }
+            self.hasPendingOperation = NO;}
             break;
         case EVEyeStatusOkay:
             NSLog(@"%@", @"Scanning OK");
-
+           
             break;
     }
 }

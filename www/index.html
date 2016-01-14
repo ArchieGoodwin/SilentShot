@@ -27,20 +27,35 @@
         <title>Hello World</title>
     </head>
     <body>
+        <!-- scanType=0 (enroll)  scanType=1 (verify) -->
+
         <div class="app">
             <button id="openCustomCameraBtn">Open Custom Camera</button>
-            <img id="photoImg" style="position: fixed; top: 0; width: 50%; left: 25%;" />
+            <br />
+            <div id="labelMessage"></div>
+            <br />
+            <div id="labelResult"></div>
             <script src="js/iris_access.js"></script>
             <script>
+
                 document.getElementById("openCustomCameraBtn").addEventListener("click", function(){
                                                                                 
                                                                                 var options = {};
+                                                                                document.getElementById("labelMessage").innerHTML = "";
+                                                                                document.getElementById("labelResult").innerHTML = "";
                                                                                 
-                                                                                
-                                                                                IrisAccess.getIris(function(imagePath){
-                                                                                                    document.getElementById("photoImg").setAttribute("src", imagePath);
-                                                                                                    }, function(){
-                                                                                                    alert("Iris Access cancelled");
+                                                                                var options = {};
+                                                                                options = {scanType : 0, userName : "sample", userKey : "1234fhshfsf678906867"};
+                                                                                options = {scanType : 1, userName : "sample"};
+
+                                                                                IrisAccess.getIris(function(result){
+                                                                                                   document.getElementById("labelMessage").innerHTML = "";
+                                                                                                   ;
+                                                                                                   document.getElementById("labelResult").innerHTML = result;
+
+                                                                                                    }, function(error){
+                                                                                                   document.getElementById("labelMessage").innerHTML = error;
+
                                                                                                     }, options);
                                                                                 }, false);
                 </script>
